@@ -65,7 +65,7 @@ Listen 443
     php_flag session.use_only_cookies on
 </VirtualHost>" >/etc/apache2/conf.d/ssl.conf
 
-	if [ -n "$HTTP_REQUIRE_TLS" ] && [ "$HTTP_REQUIRE_TLS" = "on" ]; then
+	if [ -n "$HTTP_REQUIRE_TLS" ] && [ "$HTTP_REQUIRE_TLS" = "yes" ]; then
 		sed -i "s_^.*Include /etc/apache2/site.conf.*\$_    Redirect / https://$DOMAIN/_" /etc/apache2/httpd.conf
 	fi
 fi
