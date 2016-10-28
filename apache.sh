@@ -30,6 +30,13 @@ fi
 
 # Lets Encrypt integration
 if [ -e /certs/cert.pem ] && [ -e /certs/key.pem ] && [ -e /certs/chain.pem ]; then
+	if [ -e /certs/key.pem ]; then
+		keyfile="key.pem"
+	else
+		if [-e /certs/privkey.pem ]; then
+			keyfile="privkey.pem"
+		fi
+	fi
 	echo "LoadModule ssl_module modules/mod_ssl.so
 LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
 
@@ -52,7 +59,7 @@ Listen 443
 <VirtualHost *:443>
     SSLEngine on
     SSLCertificateFile /certs/cert.pem
-    SSLCertificateKeyFile /certs/key.pem
+    SSLCertificateKeyFile /certs/$keyfile
     SSLCertificateChainFile /certs/chain.pem
     SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM
     SSLProtocol -all +TLSv1 +TLSv1.1 +TLSv1.2
